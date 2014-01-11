@@ -1,12 +1,12 @@
 <?php
-/** 
+/**
 * HAL10K Bitcoin trading bot
 * @copyright (C) http://dann.com.br - @intrd (Danilo Salles) <contact@dann.com.br>
 *
 * HAL10K is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License 2
 * as published by the Free Software Foundation.
-* 
+*
 * HAL10K is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -14,7 +14,7 @@
 **/
 	header('Content-Type: text/html; charset=utf-8');
 	date_default_timezone_set('UTC');
-	
+
 	include_once("functions.php");
 
 	$root=dirname(__FILE__);
@@ -32,10 +32,11 @@
 	$lastfile_clean=$datadir."log_clean.txt"; //Filename of clean log
 	$lastfile=$datadir."last.txt"; //Filename of last action control file
 	$fake_index=$datadir."fake_index.txt"; //Filename of backtesting index buffer
-	
+
 	/* MTGox app data. If you do not have access to the API gox, visit: https://www.mtgox.com/security and create your key (with read/write) */
 	$gox["app_id"]="xxxxxxxxxxxxxxxxxxxxxxxx";
 	$gox["app_secret"]="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	$gox["client_id"]="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 	$login="intrd";
 
 	/* Custom trading algoritm parameters */
@@ -59,7 +60,7 @@
 	$dire=6; //Amount of past intervals used in the identification of Simple Market Direction Method;
 	$dire_limbo=13; //Minimum variation (in USD) to define whether the direction is out of limbo or not (limbo: when the bot still trying to set the direction of the market);
 	$vol_limbo=450.78526468; //Minimum volume (in USD) to consider an abnormal change at the volume of an interval to another;
-	
+
 	/* Backtesting and Paper trading */
 	$fake=true; //Turns on/off simulation (backtesting);
 	$paper=false; //Paper trading is simulation with Real Live Tickers but w/ fake money balance. (If Paper trading is true, $fake needs to be defined to "true");
@@ -67,7 +68,7 @@
 	$fake_btc_usd_buyedprice="707.00000"; //Initial purchase price of BTC (ATENTION: you need to set this value for Backtesting and Paper trading);
 	$fake_datetime_of_firstbid="2014-01-01 00:00:00"; //Initial datetime (same as first line of $fakegox_tickers file below)
 	$fakegox_tickers=$datadir."fakegox_tickers(24.12-26.12).txt"; //Access http://bitcoincharts.com/charts/mtgoxUSD, set the period (must be a period that supports interval 1min), click Raw Data, copy/paste the contents of the table in a TXT file and replaces tabulations by "," comma);
-	
+
 	/* Data for accessing the Twitter API, if you do not have go to: https://dev.twitter.com/apps and create your key (with read/write permissions) */
 	$twitter_oauth["consumer_key"]="XXXXXXXXXXXXXXXXX";
 	$twitter_oauth["consumer_secret"]="XXXXXXXXXXXXXXXXXXXXXXXXXXX";
@@ -75,8 +76,8 @@
 	$twitter_oauth["secret"]="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 	$twitter_users="@intrd"; //Twitter @users to be notified
 	$enable_tweet=false; //enable/disable twitter notifications
-	
-	/* Format of starting data */	
+
+	/* Format of starting data */
 	$reset_data=true; //turn on to reset data every run;
 	if ($fake==true or $reset_data==true){
 		$default_data="$fake_datetime_of_firstbid,,$fake_btc_usd_buyedprice,ask,loss,7.71,,,\r\n$fake_datetime_of_firstbid,,$fake_btc_usd_buyedprice,bid,loss,7.71,,,\r\n";
@@ -91,5 +92,5 @@
 		wfilenew($lastfile_clean,$default_data);
 	}
 
-echo "\r\n### ATENTION: First running? edit thes file: bitcoin/hal10k/configs.php \r\n### configure parameters and comment '//' this line."; sleep(999); //COMMENT THIS LINE AT FIRST RUN 
+echo "\r\n### ATENTION: First running? edit thes file: bitcoin/hal10k/configs.php \r\n### configure parameters and comment '//' this line."; sleep(999); //COMMENT THIS LINE AT FIRST RUN
 ?>

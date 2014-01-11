@@ -1,12 +1,12 @@
 <?php
-/** 
+/**
 * HAL10K Bitcoin trading bot
 * @copyright (C) http://dann.com.br - @intrd (Danilo Salles) <contact@dann.com.br>
 *
 * HAL10K is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License 2
 * as published by the Free Software Foundation.
-* 
+*
 * HAL10K is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -14,12 +14,12 @@
 **/
 
 include("configs.php");
-require_once("MtGoxClient.php");
+require_once("Bitstamp.php");
 
 if (isset($_SERVER["REMOTE_ADDR"])) { die; };
 
 require $root."/twitter_api/tmhOAuthExamples-master/tmhOAuthExample.php"; $tmhOAuth = new tmhOAuthExample();
-$mtGoxClient = new MtGoxClient($gox["app_id"],$gox["app_secret"]);
+$mtGoxClient = new Bitstamp($gox["app_id"],$gox["app_secret"],$gox['client_id']);
 
 $replace=false;
 $infodata=get_infodataf($fake); $info=get_infodata($infodata,$fake,$replace);
@@ -43,7 +43,7 @@ while (1==1){
 		echo " #KILL!";
 		sleep(100);
 		die;
-	} 
+	}
 	$sudden_mode=getset('sudden');
 	if ($sudden_mode==1){
 		echo "\r\n### MANUAL SUDDEN ###\r\n";
@@ -55,10 +55,10 @@ while (1==1){
 	$ticker=get_tickerf($fake); $ticker=get_ticker($ticker,$fake);
 	$vol=$ticker["ticker_vol"];
 	if ($fake==true and $paper==false) $dt=$ticker["datetime"];
-	
+
 	//if (isset($ema)) unset($ema);
-	if ($emacross==true) { 
-		$lastema=emarket_direction(); 
+	if ($emacross==true) {
+		$lastema=emarket_direction();
 		echo "\r\n*** EMAShort".$lastema["short"];
 		echo " / EMALong".$lastema["long"]."";
 		if ($lastema["short"]>$lastema["long"]) {
@@ -97,11 +97,11 @@ while (1==1){
 			echo "\n*** High volume detected! ".$voll;
 			if ($enable_tweet) tweet($tmhOAuth,"High volume detected! ".$voll." $twitter_users");
 	}
-	
+
 
 	$last_order=get_lasttrade_local($last_two_orders);
 	$ticker=get_tickerf($fake); $ticker=get_ticker($ticker,$fake);
-	
+
 	if (1==1){
 		echo "\n*** Checking for open orders... ";
 		$myorders = get_orders($fake);
@@ -131,7 +131,7 @@ while (1==1){
 					}
 					global $secure_ticker;
 					if ($ticker["ticker_sell"]<$secure_ticker) {
-						echo "\n\n### FATAL ERROR - check secure ticker ###\n\n"; 
+						echo "\n\n### FATAL ERROR - check secure ticker ###\n\n";
 						sleep(500);
 					}
 					if ($manualstoploss==1 and $wall==1){
@@ -166,7 +166,7 @@ while (1==1){
 					}else{
 						$infodata=get_infodataf($fake); $info=get_infodata($infodata,$fake);
 						$estimate=get_btcbyusd($info["usd_balance"],$ticker["ticker_buy"]);
-						$transa=bid($estimate["bruto"],$ticker["ticker_buy"],$last_order,$wall,$info["balancing"],$sudden_mode); 
+						$transa=bid($estimate["bruto"],$ticker["ticker_buy"],$last_order,$wall,$info["balancing"],$sudden_mode);
 					}
 				}
 			}
@@ -189,9 +189,9 @@ while (1==1){
 				if ($balancing==1) $log="#unbalancing";
 				$infodata=get_infodataf($fake); $info=get_infodata($infodata,$fake);
 				$wallet_amount="[btc:".round($info["btc_balance"],4)."/usd:".round($info["usd_balance"],2)."]";
-				$line="$".$transa["type"]." ".$wallet_amount." @ $".$transa["price"]." (".$transa["prem"].") $log"; 
+				$line="$".$transa["type"]." ".$wallet_amount." @ $".$transa["price"]." (".$transa["prem"].") $log";
 				wfile($lastfile_clean,$line);
-				
+
 				if ($balancing!=1){
 					if ($enable_tweet) tweet($tmhOAuth,$line." $twitter_users");
 					if ($wall==1) {
