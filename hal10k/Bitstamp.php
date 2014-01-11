@@ -452,10 +452,10 @@ class Bitstamp
                 'limit' => (int)$limit,
                 'sort' => strtolower(
                     (string)$sort
-            ),
+            )),
             array(),
             'POST'
-        ));
+        );
     }
 
     /**
