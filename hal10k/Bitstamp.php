@@ -314,7 +314,7 @@ class Bitstamp
         $result = $this->query(
             $cmd,
             array(
-                'amount' => $amount,
+                'amount' => number_format((float)$amount, 7, '.', ''),
                 'price' => $price
             ),
             array(),
@@ -507,7 +507,7 @@ class Bitstamp
         return $this->query(
             'bitcoin_withdrawal',
             array(
-                'amount' => $amount,
+                'amount' => number_format((float)$amount, 7, '.', ''),
                 'address' => $address
             ),
             array(),
@@ -568,7 +568,7 @@ class Bitstamp
         return $this->query(
             'ripple_address',
             array(
-                'amount' => $amount,
+                'amount' => number_format((float)$amount, 7, '.', ''),
                 'address' => $address,
                 'currency' => $currency
             ),
