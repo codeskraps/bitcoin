@@ -7,6 +7,10 @@
 .metadata
 bin/
 tmp/
+hal10k/data/data.csv
+hal10k/data/last.txt
+hal10k/data/log_clean.txt
+hal10k/data/next_mov.csv
 *.tmp
 *.bak
 *.swp
