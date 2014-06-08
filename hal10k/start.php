@@ -18,7 +18,7 @@ require_once("Bitstamp.php");
 
 if (isset($_SERVER["REMOTE_ADDR"])) { die; };
 
-require $root."/twitter_api/tmhOAuthExamples-master/tmhOAuthExample.php"; $tmhOAuth = new tmhOAuthExample();
+// require $root."/twitter_api/tmhOAuthExamples-master/tmhOAuthExample.php"; $tmhOAuth = new tmhOAuthExample();
 $mtGoxClient = new Bitstamp($gox["app_id"],$gox["app_secret"],$gox['client_id']);
 
 $replace=false;

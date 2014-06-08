@@ -59,14 +59,14 @@
 	$manualstoploss=0; //When active, in every action stop-loss requests remote confirmation of the bot operator;
 	$dire=6; //Amount of past intervals used in the identification of Simple Market Direction Method;
 	$dire_limbo=13; //Minimum variation (in USD) to define whether the direction is out of limbo or not (limbo: when the bot still trying to set the direction of the market);
-	$vol_limbo=450.78526468; //Minimum volume (in USD) to consider an abnormal change at the volume of an interval to another;
+	$vol_limbo=350.78526468; //Minimum volume (in USD) to consider an abnormal change at the volume of an interval to another;
 
 	/* Backtesting and Paper trading */
-	$fake=true; //Turns on/off simulation (backtesting);
+	$fake=false; //Turns on/off simulation (backtesting);
 	$paper=false; //Paper trading is simulation with Real Live Tickers but w/ fake money balance. (If Paper trading is true, $fake needs to be defined to "true");
 	$fake_btc_balance="0.04161308"; //Initial amount of BTC for the simulation;
-	$fake_btc_usd_buyedprice="707.00000"; //Initial purchase price of BTC (ATENTION: you need to set this value for Backtesting and Paper trading);
-	$fake_datetime_of_firstbid="2014-01-01 00:00:00"; //Initial datetime (same as first line of $fakegox_tickers file below)
+	$fake_btc_usd_buyedprice="450.00000"; //Initial purchase price of BTC (ATENTION: you need to set this value for Backtesting and Paper trading);
+	$fake_datetime_of_firstbid="2014-01-17 00:00:00"; //Initial datetime (same as first line of $fakegox_tickers file below)
 	$fakegox_tickers=$datadir."fakegox_tickers(24.12-26.12).txt"; //Access http://bitcoincharts.com/charts/mtgoxUSD, set the period (must be a period that supports interval 1min), click Raw Data, copy/paste the contents of the table in a TXT file and replaces tabulations by "," comma);
 
 	/* Data for accessing the Twitter API, if you do not have go to: https://dev.twitter.com/apps and create your key (with read/write permissions) */
@@ -92,5 +92,5 @@
 		wfilenew($lastfile_clean,$default_data);
 	}
 
-echo "\r\n### ATENTION: First running? edit thes file: bitcoin/hal10k/configs.php \r\n### configure parameters and comment '//' this line."; sleep(999); //COMMENT THIS LINE AT FIRST RUN
+// echo "\r\n### ATENTION: First running? edit thes file: bitcoin/hal10k/configs.php \r\n### configure parameters and comment '//' this line."; sleep(999); //COMMENT THIS LINE AT FIRST RUN
 ?>
