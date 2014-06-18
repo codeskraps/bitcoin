@@ -101,7 +101,9 @@ function emarket_direction(){
 		$emaValues=lastnprices($F1,$emaShort);
 		$lastValue=end($emaValues);
 		foreach ($emaValues as $value){
-			$prices[]=$value["cur"];
+			if (isset($value["cur"])){
+				$prices[]=$value["cur"];
+			}
 		}
 		if (!isset($lastValue["emaShort"])) $lastValue["emaShort"]=intrd_ma($prices,$emaShort);
 		$ema["short"]=round(intrd_ema($lastValue["cur"],$lastValue["emaShort"],$emaShort),2);
@@ -109,7 +111,9 @@ function emarket_direction(){
 		$emaValues=lastnprices($F1,$emaLong);
 		$lastValue=end($emaValues);
 		foreach ($emaValues as $value){
-			$prices[]=$value["cur"];
+			if (isset($value["cur"])){
+				$prices[]=$value["cur"];
+			}
 		}
 		if (!isset($lastValue["emaLong"])) $lastValue["emaLong"]=intrd_ma($prices,$emaLong);
 		$ema["long"]=round(intrd_ema($lastValue["cur"],$lastValue["emaLong"],$emaLong),2);
